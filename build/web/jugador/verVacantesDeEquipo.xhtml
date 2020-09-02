@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                    template="./../WEB-INF/plantilla.xhtml"
+                    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                    xmlns:b="http://bootsfaces.net/ui"
+                    xmlns:f="http://xmlns.jcp.org/jsf/core"
+                    xmlns:h="http://xmlns.jcp.org/jsf/html"
+                    xmlns:p="http://primefaces.org/ui">
+
+        <ui:define name="contenido">
+            <c:if test="#{loginBean.usuarioAutenticado.rol == 'Jugador'}">
+
+
+                <f:metadata>
+                    <f:viewParam name="idEquipoGet" value="#{vacanteBean.equipo.id}" />
+                    <f:viewParam name="idJuegoGet" value="#{vacanteBean.juego.id}" />
+                </f:metadata>
+
+                <div style="padding-bottom: 4%; padding-left: 4%; padding-right: 4%;" class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="col-md-2">
+
+                            </div>
+                            <div class="col-md-8">
+                                <h2 style="font-weight: bold">VACANTES DEL EQUIPO</h2>
+                                <b:messages />
+                                <br></br>
+                                <ui:repeat var="vacante" value="#{vacanteBean.mostrarVacantesDeEquipo()}">
+                                    <h:form>
+                                        <h:inputHidden value="#{solicitudBean.solicitud.setIdVacante(vacante)}"></h:inputHidden>
+                                        <b:panel  look="success">
+                                            <f:facet name="heading">
+                                                <h:outputLabel style="font-weight: bold; color: #5f5f5f; font-size: 24px" value="#{vacante.nombre}"></h:outputLabel>
+                                            </f:facet>
+                                            <h:outputText style="font-size: 20px" value="#{vacante.descripcion}" />
+                                            <h3><strong>EQUIPO:</strong> #{vacante.idEquipo.nombre}</h3>
+                                            <h:outputText value="Requisitos:" />
+                                            <ul style="padding: 20px">
+                                                <li>#{vacante.requisitos}</li>
+                                            </ul>
+
+                                            <a id="atrigger" class="btn btn-success" href="#amodal" data-toggle="modal">Aplicar</a>
+
+                                            <f:facet name="footer">
+                                                <h:outputLabel>Fecha de publicación:&nbsp;</h:outputLabel>
+                                                <h:outputText value="#{vacante.fecha}">
+                                                    <f:convertDateTime pattern="dd/M/yyyy"/>
+                                                </h:outputText>
+                                            </f:facet>
+                                        </b:panel>
+                                    </h:form>
+                                </ui:repeat>
+
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <b:modal id="amodal" title="Completar solicitud" styleClass="modalPseudoClass">
+
+                    <h:form id="formSolicitud">
+                        <h:outputLabel value="Por favor selecciona el jugador con el que deseas aplicar"/>
+                        <b:selectOneMenu style="width: 100%" value="#{solicitudBean.solicitud.idJugador}" select2="true" required="true" required-message="Selecciona un jugador" >
+                            <f:selectItem/>
+                            <f:selectItems value="#{vacanteBean.jugadoresSegunJuego(vacanteBean.juego.id, loginBean.usuarioAutenticado.getId())}" var="jugador" itemLabel="#{jugador.usuario}"  />
+                        </b:selectOneMenu>
+                        <b:commandButton icon="chevron-right" value="&nbsp;Enviar" action="#{solicitudBean.agregarSolicitud()}"  look="success" style-class="btn"/>
+                    </h:form>
+                    <f:facet name="footer">
+                        <h:form>
+                            <b:button value="Cancelar" dismiss="modal" />
+                        </h:form>
+                    </f:facet>
+                </b:modal>
+            </c:if>
+            <div class="container">
+
+                <div id="demo">
+                    <ui:include src="/WEB-INF/mensajeJugador.xhtml" />
+                </div>
+            </div>
+        </ui:define>
+
+    </ui:composition>
+</html>

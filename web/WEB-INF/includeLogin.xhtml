@@ -1,0 +1,18 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+  
+    <c:if test="#{loginBean.usuarioAutenticado.rol != 'Administrador' and loginBean.usuarioAutenticado.rol != 'Jugador' and loginBean.equipoAutenticado.estado != 'Activo'}">
+        <h2>Iniciar Sesión</h2>
+        <p>Haz click para iniciar sesión.</p>
+        <a href="../login.xhtml"><button type="button" class="btn btn-info">Ingresar</button></a>
+        <hr/>
+        <h2>Inicio</h2>
+        <p>Haz click para ir a inicio.</p>
+        <a href="../index.xhtml"><button type="button" class="btn btn-info">Inicio</button></a>
+    </c:if>
+
+</ui:composition>

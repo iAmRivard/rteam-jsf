@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:b="http://bootsfaces.net/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        template="/WEB-INF/plantilla.xhtml">
+        <ui:define name="contenido">
+   
+
+            <h:body>
+                      <c:if test="#{loginBean.usuarioAutenticado.rol == 'Administrador'}">
+                <div style="padding-bottom: 4%; padding-left: 4%; padding-right: 4%;" class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b:messages />
+                            <div class="col-md-12">
+                                <h2 style="font-weight: bold">USUARIOS<h:outputText value=" (#{usuarioBean.contarUsuarios()})" /></h2>
+                                <br></br>
+                                <b:dataTable value="#{usuarioBean.usuarios}" var="usuario"
+                                             id="usuarioPool"
+                                             styleClass="table table-striped table-bordered">
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nombre" />
+                                        </f:facet>
+                                        <h:outputText value="#{usuario.nombre}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Correo" />
+                                        </f:facet>
+                                        <h:outputText value="#{usuario.correo}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nacimiento" />
+                                        </f:facet>
+                                        <h:outputText value="#{usuario.nacimiento}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Estado" />
+                                        </f:facet>
+
+                                        <b:label col-md="12" rendered="#{usuario.estado eq 'Inactivo'}" severity="danger" value="#{usuario.estado}" />
+                                        <b:label col-md="12" rendered="#{usuario.estado eq 'Activo'}" severity="success" value="#{usuario.estado}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Rol" />
+                                        </f:facet>
+                                        <h:outputText value="#{usuario.rol}" />
+                                    </h:column>
+                                    <h:column class="text-center" >
+                                        <f:facet name="header">
+                                            <h:outputText value="Visualizar" />
+                                        </f:facet>
+                                        <h:form>
+                                            <b:commandButton icon="eye-open" disabled="true" styleClass="btn disabled btn-primary">
+                                            </b:commandButton>
+                                        </h:form>
+                                    </h:column>
+                                    <h:column class="text-center">
+                                        <f:facet name="header">
+                                            <h:outputText value="Acciones" />
+                                        </f:facet>
+                                        <h:form>
+                                            <b:commandButton action="#{usuarioBean.activarUsuario(usuario.id)}" value="&nbsp;Activar" rendered="#{usuario.estado eq 'Inactivo' and usuario.rol eq 'Jugador'}" icon="ok-circle" styleClass="btn btn-block btn-success">
+                                                
+                                            </b:commandButton>
+                                            <b:commandButton action="#{usuarioBean.desactivarUsuario(usuario.id)}" value="&nbsp;Desactivar" rendered="#{usuario.estado eq 'Activo' and usuario.rol eq 'Jugador'}" icon="remove-circle" styleClass="btn btn-block btn-danger">
+                                                
+                                            </b:commandButton>
+                                        </h:form>
+                                    </h:column>
+                                </b:dataTable>
+                            </div>
+                            <div class="col-md-12">
+                                <h2 style="font-weight: bold">EQUIPOS<h:outputText value=" (#{equipoBean.contarEquipos()})" /></h2>
+                                <br></br>
+                                <b:dataTable value="#{equipoBean.equipos}" var="equipo"
+                                             id="equipoPool"
+                                             styleClass="table table-striped table-bordered">
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nombre" />
+                                        </f:facet>
+                                        <h:outputText value="#{equipo.nombre}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Correo" />
+                                        </f:facet>
+                                        <h:outputText value="#{equipo.correo}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Fundación" />
+                                        </f:facet>
+                                        <h:outputText value="#{equipo.fundacion}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Representante" />
+                                        </f:facet>
+                                        <h:outputText value="#{equipo.representante}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Teléfono" />
+                                        </f:facet>
+                                        <h:outputText value="#{equipo.telefono}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Juego" />
+                                        </f:facet>
+                                        <h:outputText value="#{equipo.idJuego.nombre}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Estado" />
+                                        </f:facet>
+
+                                        <b:label col-md="12" rendered="#{equipo.estado eq 'Inactivo'}" severity="danger" value="#{equipo.estado}" />
+                                        <b:label col-md="12" rendered="#{equipo.estado eq 'Activo'}" severity="success" value="#{equipo.estado}" />
+                                    </h:column>
+                                    <h:column class="text-center" >
+                                        <f:facet name="header">
+                                            <h:outputText value="Visualizar" />
+                                        </f:facet>
+                                        <h:form>
+                                            <b:commandButton icon="eye-open" disabled="true" styleClass="btn disabled btn-primary">
+                                            </b:commandButton>
+                                        </h:form>
+                                    </h:column>
+                                    <h:column  class="text-center">
+                                        <f:facet name="header">
+                                            <h:outputText value="Acciones" />
+                                        </f:facet>
+                                        <h:form>
+                                            <b:commandButton action="#{equipoBean.activarEquipo(equipo.id)}" value="&nbsp;Activar" rendered="#{equipo.estado eq 'Inactivo'}" icon="ok-circle" styleClass="btn btn-block btn-success">
+                                                
+                                            </b:commandButton>
+                                            <b:commandButton action="#{equipoBean.desactivarEquipo(equipo.id)}" value="&nbsp;Desactivar" rendered="#{equipo.estado eq 'Activo'}" icon="remove-circle" styleClass="btn btn-block btn-danger">
+                                                
+                                            </b:commandButton>
+                                        </h:form>
+                                    </h:column>
+                                </b:dataTable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </c:if>
+                  <div class="container">
+
+                    <div id="demo">
+                        <ui:include src="/WEB-INF/mensajeAdmin.xhtml" />
+                    </div>
+                </div>
+            </h:body>
+                 
+        </ui:define>
+    </ui:composition>
+</html>
+

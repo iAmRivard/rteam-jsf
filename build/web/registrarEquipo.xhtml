@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:b="http://bootsfaces.net/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        template="/WEB-INF/plantilla.xhtml">
+        <ui:define name="contenido">
+            <h:body>
+
+                    <div style="padding-bottom: 4%; padding-left: 4%; padding-right: 4%;" class="container-fluid">
+                        <div class="row bg-secondary">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <h:form>
+                                    <h2 style="font-weight: bold">#{langTag['registrarEquipo.titulo']}</h2>
+                                    <b:messages />
+                                    <br></br>
+                                    <h:outputLabel value="#{langTag['registrarEquipo.nombreEquipoLabel']}"/>
+                                    <b:inputText value="#{equipoBean.equipo.nombre}" required="true" required-message="#{langTag['registrarEquipo.nombreRequiredMessage']}">
+                                        <f:facet name="append">
+                                            <b:icon value="user" />
+                                        </f:facet>
+                                    </b:inputText>
+                                    <h:outputLabel value="#{langTag['registrarEquipo.correoEquipoLabel']}"/>
+                                    <b:inputText value="#{equipoBean.equipo.correo}" required="true" required-message="#{langTag['registrarEquipo.correoRequiredMessage']}">
+                                        <f:facet name="append">
+                                            <b:icon value="envelope" />
+                                        </f:facet>
+                                    </b:inputText>
+                                    <h:outputLabel value="#{langTag['registrarEquipo.claveEquipoLabel']}"/>
+                                    <b:inputSecret value="#{equipoBean.equipo.password}" required="true" required-message="#{langTag['registrarEquipo.claveRequiredMessage']}">
+                                        <f:facet name="append">
+                                            <b:icon value="lock" />
+                                        </f:facet>
+                                    </b:inputSecret>
+                                    <h:outputLabel value="#{langTag['registrarEquipo.fechaFundacionEquipoLabel']}"/>
+                                    <b:dateTimePicker format="DD/MM/YYYY" value="#{equipoBean.equipo.fundacion}" required="true" required-message="#{langTag['registrarEquipo.fundacionRequiredMessage']}"></b:dateTimePicker>
+                                    <br></br>
+                                    <h:outputLabel value="#{langTag['registrarEquipo.nombreAdministradorEquipoLabel']}"/>
+                                    <b:inputText value="#{equipoBean.equipo.representante}" required="true" required-message="#{langTag['registrarEquipo.nombreAdministradorRequiredMessage']}">
+                                        <f:facet name="append">
+                                            <b:icon value="cog" />
+                                        </f:facet>
+                                    </b:inputText>
+                                    <h:outputLabel value="#{langTag['registrarEquipo.numeroContactoEquipoLabel']}"/>
+                                    <b:inputText mask="99999999" value="#{equipoBean.equipo.telefono}" required="true" required-message="#{langTag['registrarEquipo.telefonoRequiredMessage']}">
+                                        <f:facet name="append">
+                                            <b:icon value="earphone" />
+                                        </f:facet>
+                                    </b:inputText>
+                                    <h:outputLabel value="#{langTag['registrarEquipo.descripcionEquipoLabel']}"/>
+                                    <b:inputTextarea rows="8" value="#{equipoBean.equipo.descripcion}" required="true" required-message="#{langTag['registrarEquipo.descripcionRequiredMessage']}" >
+                                        <f:facet name="append">
+                                            <b:icon value="align-justify" />
+                                        </f:facet>
+                                    </b:inputTextarea>
+                                    <h:outputLabel value="#{langTag['registrarEquipo.juegoEquipoLabel']}"/>
+                                    <b:selectOneMenu select2="true" required="true" required-message="#{langTag['registrarEquipo.selectJuegoRequiredMessage']}" value="#{equipoBean.equipo.idJuego}">
+                                        <f:selectItem/>
+                                        <f:selectItems value="#{equipoBean.juegosList}" var="juego" itemLabel="#{juego.nombre}"  />
+                                        <f:facet name="append">
+                                            <b:icon value="globe" />
+                                        </f:facet>
+                                    </b:selectOneMenu>
+                                    <b:commandButton icon="plus" value="&nbsp;#{langTag['registrarEquipo.registrarseButton']}" action="#{equipoBean.agregarEquipo()}" look="success" style-class="btn btn-lg"/>
+
+                                </h:form>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                <div class="container">
+
+                    <div id="demo">
+                        <ui:include src="/WEB-INF/includeLogin.xhtml" />
+                    </div>
+                </div>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+

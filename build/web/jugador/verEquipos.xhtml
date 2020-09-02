@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:b="http://bootsfaces.net/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        template="/WEB-INF/plantilla.xhtml">
+        <ui:define name="contenido">
+            <h:body>
+                <c:if test="#{loginBean.usuarioAutenticado.rol == 'Jugador'}">
+                    <div style="padding-bottom: 4%; padding-left: 4%; padding-right: 4%;" class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                
+                                <div class="col-md-2"></div>
+
+                                <div class="col-md-8">
+                                    <h2 style="font-weight: bold">EQUIPOS DISPONIBLES</h2>
+                                    <br></br>
+                                    <ui:repeat var="equipo" value="#{equipoBean.equiposActivos2}">
+                                        
+                                        <b:panel colMd="12"  look="default">
+                                            <f:facet name="heading">
+                                                
+                                                <h:outputLabel style="font-weight: bold; color: #5f5f5f; font-size: 24px" value="#{equipo.nombre}"></h:outputLabel>
+                                            </f:facet>
+                                            <h:outputText style="font-size: 20px" value="#{equipo.descripcion}" />
+                                            <h3><strong>JUEGO:</strong> #{equipo.idJuego.nombre}</h3>
+                                            <ul style="padding: 20px">
+                                                <li>Correo: #{equipo.correo}</li>
+                                                <li>Representante: #{equipo.representante}</li>
+                                                <li>Teléfono: #{equipo.telefono}</li>
+                                            </ul>
+                                            <a class="btn btn-info" href="verVacantesDeEquipo.xhtml?idEquipoGet=#{equipo.id}&amp;idJuegoGet=#{equipo.idJuego.id}">Ver vacantes disponibles</a>
+                                            <f:facet name="footer">
+                                                <h:outputLabel>Año de fundación:&nbsp;</h:outputLabel>
+                                                <h:outputText value="#{equipo.fundacion}">
+                                                <f:convertDateTime pattern="yyyy"/>
+                                            </h:outputText>
+                                            </f:facet>
+                                        </b:panel>
+                                    </ui:repeat>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+                <div class="container">
+
+                    <div id="demo">
+                        <ui:include src="/WEB-INF/mensajeJugador.xhtml" />
+                    </div>
+                </div>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+

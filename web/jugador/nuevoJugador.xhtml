@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:b="http://bootsfaces.net/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        template="/WEB-INF/plantilla.xhtml">
+        <ui:define name="contenido">
+            <h:body>
+                <c:if test="#{loginBean.usuarioAutenticado.rol == 'Jugador'}">
+                    <div style="padding-bottom: 4%; padding-left: 4%; padding-right: 4%;" class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-5">
+                                    <h:form id="formJugador1">
+                                        <h2 style="font-weight: bold">NUEVO JUGADOR</h2>
+                                        <b:messages />
+                                        <br></br>
+                                        <h:outputLabel value="Nombre de usuario"/>
+                                        <h:inputHidden value="#{jugadorBean.jugador.id}"/>
+                                        <b:inputText value="#{jugadorBean.jugador.usuario}" required="true" required-message="Agrega un nombre de usuario">
+                                        </b:inputText>
+                                        <h:outputLabel value="Juego"/>
+                                        <b:selectOneMenu select2="true" required="true" value="#{jugadorBean.jugador.idJuego}" required-message="Selecciona un juego" >
+                                            <f:selectItem/>
+                                            <f:selectItems value="#{jugadorBean.juegosList}" var="juego" itemLabel="#{juego.nombre}"  />
+                                        </b:selectOneMenu>
+                                        <h:outputLabel value="Rol dentro del juego"/>
+                                        <b:inputText value="#{jugadorBean.jugador.rol}" required="true" required-message="Agrega tu rol dentro del juego">
+                                        </b:inputText>
+                                        <h:outputLabel value="Posición dentro del juego"/>
+                                        <b:inputText value="#{jugadorBean.jugador.posicion}" required="true" required-message="Agrega tu posición dentro del juego">
+                                        </b:inputText>
+                                        <h:outputLabel value="Liga clasificatoria juego"/>
+                                        <b:inputText value="#{jugadorBean.jugador.liga}" required="true" required-message="Agrega tu liga dentro del juego">
+                                        </b:inputText>
+                                        <h:outputLabel value="Nivel dentro del juego"/>
+                                        <b:inputText value="#{jugadorBean.jugador.nivel}" required="true" required-message="Agrega tu nivel dentro del juego">
+                                        </b:inputText>
+                                        <h:outputLabel value="Descripción"/>
+                                        <b:inputTextarea rows="8" value="#{jugadorBean.jugador.descripcion}" required="true" required-message="Agrega una descripción" >
+                                        </b:inputTextarea>
+                                        <!--                                        <h:outputLabel value="Usuario"/>
+                                                                                <b:selectOneMenu select2="true" required="true" value="#{jugadorBean.jugador.idUsuario}" required-message="Selecciona un juego" >
+                                                                                    <f:selectItem/>
+                                                                                    <f:selectItems value="#{jugadorBean.usuariosList}" var="usuario" itemLabel="#{usuario.nombre}"  />
+                                                                                </b:selectOneMenu>-->
+                                        
+
+                                        <div class="row">
+                                            <div class="col-sm-6" style="padding-bottom: 5%">
+                                                <b:commandButton icon="plus" value="&nbsp;Agregar" action="#{jugadorBean.agregarJugador(loginBean.usuarioAutenticado)}" look="success" style-class="btn btn-lg btn-block"/>
+                                            </div>
+                                            <div class="col-sm-6" style="padding-bottom: 5%">
+                                                <b:commandButton  icon="cog" value="&nbsp;Modificar" action="#{jugadorBean.modificarJugador()}"  look="warning" style-class="btn btn-lg btn-block"/>
+                                            </div>
+                                        </div>
+
+                                    </h:form>
+                                </div>
+                                <div class="col-md-7">
+                                    <h2 style="font-weight: bold">MIS JUGADORES</h2>
+                                    <br></br>
+                                    <b:dataTable value="#{jugadorBean.enlistarJugadoresByUser(loginBean.usuarioAutenticado.getId())}" var="jugador"
+                                                 id="jugadorPool"
+                                                 styleClass="table table-striped table-bordered">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Usuario" />
+                                            </f:facet>
+                                            <h:outputText value="#{jugador.usuario}" />
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Liga" />
+                                            </f:facet>
+                                            <h:outputText value="#{jugador.liga}" />
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Nivel" />
+                                            </f:facet>
+                                            <h:outputText value="#{jugador.nivel}" />
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Usuario" />
+                                            </f:facet>
+                                            <h:outputText value="#{jugador.idUsuario.nombre}" />
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Juego" />
+                                            </f:facet>
+                                            <h:outputText value="#{jugador.idJuego.nombre}" />
+                                        </h:column>
+
+                                        <h:column class="text-center" >
+                                            <f:facet name="header">
+                                                <h:outputText value="Seleccionar" />
+                                            </f:facet>
+                                            <h:form>
+                                                <b:commandButton icon="eye-open" action="#{jugadorBean.obtenerJugador(jugador.id)}" styleClass="btn btn-primary">
+                                                    <f:ajax execute="@form" render="formJugador1" />
+                                                </b:commandButton>
+                                            </h:form>
+                                        </h:column>
+                                        <h:column class="text-center">
+                                            <f:facet name="header">
+                                                <h:outputText value="Eliminar" />
+                                            </f:facet>
+                                            <h:form>
+                                                <b:commandButton icon="trash" action="#{jugadorBean.eliminarJugador(jugador.id)}" styleClass="btn btn-danger"/>
+                                            </h:form>
+                                        </h:column>
+                                    </b:dataTable>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+                <div class="container">
+
+                    <div id="demo">
+                        <ui:include src="/WEB-INF/mensajeJugador.xhtml" />
+                    </div>
+                </div>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+

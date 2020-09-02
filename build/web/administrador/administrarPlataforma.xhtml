@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:b="http://bootsfaces.net/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        template="/WEB-INF/plantilla.xhtml">
+        <ui:define name="contenido">
+            <h:body>
+                <c:if test="#{loginBean.usuarioAutenticado.rol == 'Administrador'}">
+                    <div style="padding-bottom: 4%; padding-left: 4%; padding-right: 4%;" class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-5">
+                                    <h:form id="formPlataforma">
+                                        <h2 style="font-weight: bold">NUEVA PLATAFORMA</h2>
+                                        <b:messages />
+                                        <br></br>
+                                        <h:outputLabel value="Nombre"/>
+                                        <h:inputHidden value="#{plataformaBean.plataforma.id}"/>
+                                        <b:inputText value="#{plataformaBean.plataforma.nombre}" required="true" required-message="Agrega un nombre">
+                                        </b:inputText>
+                                        <h:outputLabel value="Fecha de lanzamiento"/>
+                                        <b:dateTimePicker format="DD/MM/YYYY" value="#{plataformaBean.plataforma.lanzamiento}" required="true" required-message="Agrega una fecha de lanzamiento"></b:dateTimePicker>
+                                        <br></br>
+                                        <div class="row">
+                                            <div class="col-md-6" style="padding-bottom: 5%">
+                                                <b:commandButton icon="plus" value="&nbsp;Agregar" action="#{plataformaBean.agregarPlataforma()}" look="success" style-class="btn btn-lg btn-block"/>
+                                            </div>
+                                            <div class="col-md-6" style="padding-bottom: 5%">
+                                                <b:commandButton icon="cog" value="&nbsp;Modificar" action="#{plataformaBean.modificarPlataforma()}"  look="warning" style-class="btn btn-lg btn-block"/>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                                <div class="col-md-7">
+                                    <h2 style="font-weight: bold">PLATAFORMAS<h:outputText value=" (#{plataformaBean.contarPlataformas()})" /></h2>
+                                    <br></br>
+                                    <b:dataTable value="#{plataformaBean.plataformas}" var="plataforma"
+                                                 id="plataformaPool"
+                                                 styleClass="table table-striped table-bordered">
+
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Nombre" />
+                                            </f:facet>
+                                            <h:outputText value="#{plataforma.nombre}" />
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Año de lanzamiento" />
+                                            </f:facet>
+                                            <h:outputText value="#{plataforma.lanzamiento}">
+                                                <f:convertDateTime pattern="yyyy"/>
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column class="text-center" >
+                                            <f:facet name="header">
+                                                <h:outputText value="Seleccionar" />
+                                            </f:facet>
+                                            <h:form>
+                                                <b:commandButton icon="eye-open" action="#{plataformaBean.obtenerPlataforma(plataforma.id)}" styleClass="btn btn-primary">
+                                                    <f:ajax execute="@form" render="formPlataforma" />
+                                                </b:commandButton>
+                                            </h:form>
+                                        </h:column>
+                                        <h:column class="text-center">
+                                            <f:facet name="header">
+                                                <h:outputText value="Eliminar" />
+                                            </f:facet>
+                                            <h:form>
+                                                <b:commandButton icon="trash" action="#{plataformaBean.eliminarPlataforma(plataforma.id)}" styleClass="btn btn-danger"/>
+                                            </h:form>
+                                        </h:column>
+
+                                    </b:dataTable>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+                <div class="container">
+
+                    <div id="demo">
+                        <ui:include src="/WEB-INF/mensajeAdmin.xhtml" />
+                    </div>
+                </div>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+

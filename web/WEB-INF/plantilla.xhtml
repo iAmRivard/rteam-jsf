@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+
+      xmlns:p="http://primefaces.org/ui" >
+
+    <h:head>
+        <title>R TEAM</title>
+    </h:head>
+    <h:body>
+        <ui:insert name="menu" >  
+
+            <b:navBar brand="R TEAM" inverse="true" >
+                <b:navbarLinks>
+                    <b:dropMenu value="#{langTag['plantilla.jugadoresDropMenu']}" rendered="#{loginBean.usuarioAutenticado.getRol() == 'Jugador'}">
+                        <b:navLink value="Mi perfil" href="../jugador/miPerfil.xhtml"></b:navLink>
+                        <b:navLink value="Mis equipos" href="../jugador/misEquipos.xhtml"></b:navLink>
+                        <b:navLink value="Ver equipos " href="../jugador/verEquipos.xhtml"></b:navLink>
+                        <b:navLink value="Ver vacantes" href="../jugador/verVacantes.xhtml"></b:navLink>
+                        <b:navLink value="Mis jugadores" href="../jugador/nuevoJugador.xhtml"></b:navLink>
+
+                    </b:dropMenu>
+                    <b:dropMenu value="#{langTag['plantilla.equiposDropMenu']} " rendered="#{loginBean.equipoAutenticado.estado == 'Activo'}">
+                        <b:navLink value="Administrar Vacante" href="../equipo/administrarVacante.xhtml"></b:navLink>
+                        <b:navLink value="Mi equipo" href="../equipo/miEquipo.xhtml"></b:navLink>
+                        <b:navLink value="Mi roster " href="../equipo/miRoster.xhtml"></b:navLink>
+                        <b:navLink value="Ver jugadores" href="../equipo/verJugadores.xhtml"></b:navLink>
+                        <b:navLink value="ver solicitudes" href="../equipo/verSolicitudes.xhtml"></b:navLink>
+                        
+
+                        <b:navLink value="#{langTag['plantilla.administrarVacantesNavLink']} " href="../equipo/administrarVacante.xhtml"></b:navLink>
+                    </b:dropMenu>
+                    <b:dropMenu value="#{langTag['plantilla.administracionDropMenu']} " rendered="#{loginBean.usuarioAutenticado.getRol() == 'Administrador'}" >
+                        <b:dropMenu value="#{langTag['plantilla.usuariosDropMenu']} ">
+                            <b:navLink value="#{langTag['plantilla.administrarUsuariosNavLink']} " href="../administrador/administrarEstados.xhtml"></b:navLink>
+                        </b:dropMenu>
+                        <b:dropMenu value="#{langTag['plantilla.plataformaDropMenu']} ">
+                            <b:navLink value="#{langTag['plantilla.administrarPlataformasNavLink']} " href="../administrador/administrarPlataforma.xhtml"></b:navLink>
+                        </b:dropMenu>
+                        <b:dropMenu value="#{langTag['plantilla.categoriasDropMenu']} ">
+                            <b:navLink value="#{langTag['plantilla.administrarCategoriasNavLink']} " href="../administrador/administrarCategoria.xhtml"></b:navLink>
+                        </b:dropMenu>
+                        <b:dropMenu value="#{langTag['plantilla.juegosDropMenu']} ">
+                            <b:navLink value="#{langTag['plantilla.administrarJuegosNavLink']} " href="../administrador/administrarJuego.xhtml"></b:navLink>
+                        </b:dropMenu>
+                         <b:dropMenu value="Logs ">
+                            <b:navLink value="Logs " href="../administrador/verLogs.xhtml"></b:navLink>
+                        </b:dropMenu>
+                    </b:dropMenu>
+                    <b:dropMenu value="Acciones" rendered="#{loginBean.usuarioAutenticado.getRol() == 'Administrador' || loginBean.usuarioAutenticado.getRol() == 'Jugador' || loginBean.equipoAutenticado.estado == 'Activo'}">
+                        <div class="row" id="salir">
+                            <div class="col-md-12 text-center">
+                                <h:form >
+                                    <h:commandButton value="Cerrar sesión" class="btn col-md-12 btn-danger" action="#{loginBean.salir()}" />
+                                </h:form>
+                            </div>
+                        </div>
+                    </b:dropMenu>
+
+
+                </b:navbarLinks>
+            </b:navBar>
+
+            <script>
+
+                document.getElementById("Salir").addEventListener(click, function () {
+
+
+                });
+            </script>
+        </ui:insert>
+        <ui:insert name="contenido" >
+            CONTENIDO POR DEFECTO
+        </ui:insert>
+    </h:body>
+</html>

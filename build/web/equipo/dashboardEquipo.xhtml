@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/plantilla.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="contenido">
+          <c:if test="#{loginBean.equipoAutenticado.estado == 'Activo'}">
+
+            <p class="text-center">Utiliza el menu superior para navegegar.</p>
+
+        </c:if>
+        <div class="container">
+
+            <div id="demo">
+                <ui:include src="/WEB-INF/mensajeReclutador.xhtml" />
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
